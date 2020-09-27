@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<arooa:descriptor namespace="oddjob:ssh" prefix="ssh" xmlns:arooa="http://rgordon.co.uk/oddjob/arooa">
+    <conversions>
+        <value value="org.oddjob.ssh.SecretConversions"/>
+    </conversions>
+    <components>
+        <arooa:bean-def className="org.oddjob.ssh.SshExecJob" element="exec">
+            <design>
+                <design:form xmlns:design="arooa:design">
+                    <formItems>
+                        <design:group bordered="true" title="General">
+                            <formItems>
+                                <design:text property="name" title="Name"/>
+                                <design:single property="connection" title="Connection"/>
+                                <design:text property="command" title="Command"/>
+                            </formItems>
+                        </design:group>
+                        <design:group bordered="true" title="IO">
+                            <formItems>
+                                <design:text property="redirectStderr" title="Redirect Stderr"/>
+                                <design:single property="stdin" title="Stdin"/>
+                                <design:single property="stdout" title="Stdout"/>
+                                <design:single property="stderr" title="Stderr"/>
+                            </formItems>
+                        </design:group>
+                    </formItems>
+                </design:form>
+            </design>
+        </arooa:bean-def>
+        <arooa:bean-def className="org.oddjob.ssh.ScpClientJob" element="scp">
+            <design>
+                <design:form xmlns:design="arooa:design">
+                    <formItems>
+                        <design:group bordered="true" title="General">
+                            <formItems>
+                                <design:text property="name" title="Name"/>
+                                <design:single property="connection" title="Connection"/>
+                            </formItems>
+                        </design:group>
+                        <design:group bordered="true" title="Files">
+                            <formItems>
+                                <design:single property="from" title="Local From"/>
+                                <design:text property="remote" title="Remote"/>
+                                <design:single property="to" title="Local To"/>
+                            </formItems>
+                        </design:group>
+                    </formItems>
+                </design:form>
+            </design>
+        </arooa:bean-def>
+        <arooa:bean-def className="org.oddjob.ssh.SshSequenceJob" element="cascade">
+            <design>
+                <design:form xmlns:design="arooa:design">
+                    <formItems>
+                        <design:group bordered="true" title="General">
+                            <formItems>
+                                <design:text property="name" title="Name"/>
+                                <design:single property="connection" title="Connection"/>
+                            </formItems>
+                        </design:group>
+                        <design:group bordered="true" title="Optional Behaviour">
+                            <formItems>
+                                <design:text property="halton" title="Halt On"/>
+                                <design:text property="cascadeOn" title="Cascade On"/>
+                            </formItems>
+                        </design:group>
+                    </formItems>
+                </design:form>
+            </design>
+        </arooa:bean-def>
+    </components>
+    <values>
+        <arooa:bean-def className="org.oddjob.ssh.SshConnectionValue" element="connection">
+            <design>
+                <design:form xmlns:design="arooa:design">
+                    <formItems>
+                        <design:group title="Connection" bordered="true">
+                            <formItems>
+                                <design:text property="user" title="User"/>
+                                <design:text property="host" title="Host"/>
+                                <design:text property="port" title="Port"/>
+                            </formItems>
+                        </design:group>
+                        <design:group title="Authentication" bordered="true">
+                            <formItems>
+                                <design:single property="keyIdentityProvider" title="Key Identity Provider"/>
+                                <design:single property="passwordProvider" title="Password Provider"/>
+                            </formItems>
+                        </design:group>
+                        <design:group title="Other" bordered="true">
+                            <formItems>
+                                <design:text property="timeout" title="Timeout"/>
+                            </formItems>
+                        </design:group>
+                    </formItems>
+                </design:form>
+            </design>
+        </arooa:bean-def>
+        <arooa:bean-def className="org.oddjob.ssh.FileKeyPair" element="file-keypair"/>
+        <arooa:bean-def className="org.oddjob.ssh.PuttyKeyPair" element="putty-keypair"/>
+        <arooa:bean-def className="org.oddjob.ssh.PromptSecretProvider" element="input-passphrase"/>
+    </values>
+</arooa:descriptor>

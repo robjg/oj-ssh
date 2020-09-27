@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<oddjob id="oddjob">
+    <job>
+        <sequential>
+            <jobs>
+                <properties>
+                    <values>
+                        <value key="ssh.server.port" value="22"/>
+                    </values>
+                </properties>
+                <ssh:exec command="cat" name="Exec Redirect IO" xmlns:ssh="oddjob:ssh">
+                    <connection>
+                        <ssh:connection host="localhost" port="${ssh.server.port}" user="me">
+                            <passwordProvider>
+                                <value value="please"/>
+                            </passwordProvider>
+                        </ssh:connection>
+                    </connection>
+                    <stdin>
+                        <buffer><![CDATA[This will come back to haunt me!]]></buffer>
+                    </stdin>
+                    <stdout>
+                        <identify id="result">
+                            <value>
+                                <buffer/>
+                            </value>
+                        </identify>
+                    </stdout>
+                </ssh:exec>
+                <echo id="echo"><![CDATA[${result}]]></echo>
+            </jobs>
+        </sequential>
+    </job>
+</oddjob>

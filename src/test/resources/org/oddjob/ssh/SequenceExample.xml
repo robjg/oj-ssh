@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<oddjob>
+    <job>
+        <sequential>
+            <jobs>
+                <properties>
+                    <values>
+                        <value key="ssh.server.port" value="22"/>
+                    </values>
+                </properties>
+                <ssh:cascade xmlns:ssh="oddjob:ssh">
+                    <jobs>
+                        <ssh:exec id="exec1" name="SSH Exec 1" command="echo hello"/>
+                        <ssh:exec id="exec2" name="SSH Exec 2" command="echo goodbye"/>
+                    </jobs>
+                    <connection>
+                        <ssh:connection host="localhost" port="${ssh.server.port}" timeout="1000" user="foo"/>
+                    </connection>
+                </ssh:cascade>
+            </jobs>
+        </sequential>
+    </job>
+</oddjob>

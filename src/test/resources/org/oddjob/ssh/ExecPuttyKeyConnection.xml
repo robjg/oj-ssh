@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<oddjob id="oddjob">
+    <job>
+        <sequential>
+            <jobs>
+                <properties>
+                    <values>
+                        <value key="ssh.server.port" value="22"/>
+                    </values>
+                </properties>
+                <ssh:exec id="exec" command="echo hello" name="Exec With Key Authentication" xmlns:ssh="oddjob:ssh">
+                    <connection>
+                        <ssh:connection host="localhost" port="${ssh.server.port}" user="me">
+                            <keyIdentityProvider>
+                                <ssh:putty-keypair>
+                                    <passphraseProvider>
+                                        <ssh:input-passphrase/>
+                                    </passphraseProvider>
+                                    <keyFile>
+                                        <file file="${oddjob.dir}/PuttyKeyPairEnc.ppk"/>
+                                    </keyFile>
+                                </ssh:putty-keypair>
+                            </keyIdentityProvider>
+                        </ssh:connection>
+                    </connection>
+                </ssh:exec>
+            </jobs>
+        </sequential>
+    </job>
+</oddjob>
