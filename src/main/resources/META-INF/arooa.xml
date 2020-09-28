@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <arooa:descriptor namespace="oddjob:ssh" prefix="ssh" xmlns:arooa="http://rgordon.co.uk/oddjob/arooa">
-    <conversions>
-        <value value="org.oddjob.ssh.SecretConversions"/>
-    </conversions>
     <components>
         <arooa:bean-def className="org.oddjob.ssh.SshExecJob" element="exec">
             <design>
@@ -64,30 +61,34 @@
                                 <design:text property="cascadeOn" title="Cascade On"/>
                             </formItems>
                         </design:group>
+                        <design:indexed property="jobs" title="Jobs"/>
                     </formItems>
                 </design:form>
             </design>
         </arooa:bean-def>
     </components>
+    <conversions>
+        <value value="org.oddjob.ssh.SecretConversions"/>
+    </conversions>
     <values>
         <arooa:bean-def className="org.oddjob.ssh.SshConnectionValue" element="connection">
             <design>
                 <design:form xmlns:design="arooa:design">
                     <formItems>
-                        <design:group title="Connection" bordered="true">
+                        <design:group bordered="true" title="Connection">
                             <formItems>
                                 <design:text property="user" title="User"/>
                                 <design:text property="host" title="Host"/>
                                 <design:text property="port" title="Port"/>
                             </formItems>
                         </design:group>
-                        <design:group title="Authentication" bordered="true">
+                        <design:group bordered="true" title="Authentication">
                             <formItems>
                                 <design:single property="keyIdentityProvider" title="Key Identity Provider"/>
                                 <design:single property="passwordProvider" title="Password Provider"/>
                             </formItems>
                         </design:group>
-                        <design:group title="Other" bordered="true">
+                        <design:group bordered="true" title="Other">
                             <formItems>
                                 <design:text property="timeout" title="Timeout"/>
                             </formItems>

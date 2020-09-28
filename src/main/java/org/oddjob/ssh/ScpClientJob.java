@@ -22,9 +22,9 @@ public class ScpClientJob extends SshClientBase {
 
     private String remote;
 
-    private String from;
+    private Path from;
 
-    private String to;
+    private Path to;
 
 
     protected static final ScpTransferEventListener DEBUG_LISTENER = new ScpTransferEventListener() {
@@ -82,7 +82,7 @@ public class ScpClientJob extends SshClientBase {
 
         ScpClient scpClient = creator.createScpClient(session, listener);
 
-        String from = this.from;
+        Path from = this.from;
         if (from != null) {
 
             try {
@@ -92,7 +92,7 @@ public class ScpClientJob extends SshClientBase {
             }
         }
 
-        String to = this.to;
+        Path to = this.to;
         if (to != null) {
 
             try {
@@ -112,19 +112,19 @@ public class ScpClientJob extends SshClientBase {
         this.remote = remote;
     }
 
-    public String getFrom() {
+    public Path getFrom() {
         return from;
     }
 
-    public void setFrom(String from) {
+    public void setFrom(Path from) {
         this.from = from;
     }
 
-    public String getTo() {
+    public Path getTo() {
         return to;
     }
 
-    public void setTo(String to) {
+    public void setTo(Path to) {
         this.to = to;
     }
 }

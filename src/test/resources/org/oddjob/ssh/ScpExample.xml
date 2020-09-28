@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<oddjob>
+    <job>
+        <sequential>
+            <jobs>
+                <properties>
+                    <values>
+                        <value key="ssh.server.port" value="22"/>
+                    </values>
+                </properties>
+                <ssh:scp remote="${remote.file}" xmlns:ssh="oddjob:ssh">
+                    <connection>
+                        <ssh:connection host="localhost" port="${ssh.server.port}" user="foo"/>
+                    </connection>
+                    <from>
+                        <file file="${from.file}"/>
+                    </from>
+                </ssh:scp>
+            </jobs>
+        </sequential>
+    </job>
+</oddjob>
