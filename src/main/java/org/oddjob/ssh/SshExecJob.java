@@ -5,6 +5,7 @@ import org.apache.sshd.client.channel.ClientChannelEvent;
 import org.apache.sshd.client.session.ClientSession;
 import org.apache.sshd.common.util.io.IoUtils;
 import org.oddjob.arooa.logging.LogLevel;
+import org.oddjob.io.DevNullType;
 import org.oddjob.logging.ConsoleOwner;
 import org.oddjob.logging.LogArchive;
 import org.oddjob.logging.LogArchiver;
@@ -14,7 +15,6 @@ import org.oddjob.util.OddjobWrapperException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -96,7 +96,7 @@ public class SshExecJob extends SshClientBase implements ConsoleOwner {
             ChannelExec channel = session.createExecChannel(command);
 
             InputStream inStream = Optional.ofNullable(this.stdin)
-                    .orElseGet(() -> new ByteArrayInputStream(new byte[0]));
+                    .orElseGet(() -> DevNullType.IN);
 
             try (OutputStream outStream = new LoggingOutputStream(stdout,
                     LogLevel.INFO, consoleArchive);
