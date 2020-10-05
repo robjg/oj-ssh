@@ -16,14 +16,34 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * @oddjob.description A very basic SCP job. Copies a single file to or from
+ * the remote host or both, or not at all if from and to are missing.
+ *
+ */
 public class ScpClientJob extends SshClientBase {
 
     private static final Logger logger = LoggerFactory.getLogger(ScpClientJob.class);
 
+    /**
+     * @oddjob.property
+     * @oddjob.description The remote file name.
+     * @oddjob.required Yes.
+     */
     private String remote;
 
+    /**
+     * @oddjob.property
+     * @oddjob.description The path of the file to copy from the remote.
+     * @oddjob.required No.
+     */
     private Path from;
 
+    /**
+     * @oddjob.property
+     * @oddjob.description The path of the file to copy to the remote.
+     * @oddjob.required No.
+     */
     private Path to;
 
 

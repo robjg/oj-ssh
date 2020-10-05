@@ -16,20 +16,53 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * @oddjob.description Provide an SSH connection.
+ */
 public class SshConnectionValue implements ValueFactory<SshConnection> {
 
     private static final Logger logger = LoggerFactory.getLogger(SshClientBase.class);
 
+    /**
+     * @oddjob.property
+     * @oddjob.description The user for the connection.
+     * @oddjob.required Yes.
+     */
     private String user;
 
+    /**
+     * @oddjob.property
+     * @oddjob.description Provide a password for password authentication.
+     * @oddjob.required No.
+     */
     private SecretProvider passwordProvider;
 
+    /**
+     * @oddjob.property
+     * @oddjob.description The host to connect to.
+     * @oddjob.required Yes.
+     */
     private String host;
 
+    /**
+     * @oddjob.property
+     * @oddjob.description The port.
+     * @oddjob.required No, defaults to 22.
+     */
     private int port = 22;
 
+    /**
+     * @oddjob.property
+     * @oddjob.description Provides a key for Public Key Authentication.
+     * @oddjob.required No.
+     */
     private KeyIdentityProvider keyIdentityProvider;
 
+    /**
+     * @oddjob.property
+     * @oddjob.description Timeout when trying to connect.
+     * @oddjob.required No, defaults to 60 seconds.
+     */
     private long timeout = 60_000L;
 
     @Override

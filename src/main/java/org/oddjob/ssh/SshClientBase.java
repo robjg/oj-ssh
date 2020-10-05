@@ -10,20 +10,37 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 
+/**
+ * Base class for Scp and Exec Jobs.
+ */
 abstract  public class SshClientBase implements Callable<Integer> {
 
     private static final Logger logger = LoggerFactory.getLogger(SshClientBase.class);
 
+    /**
+     * @oddjob.property
+     * @oddjob.description Name of the job.
+     * @oddjob.required No.
+     */
     private volatile String name;
 
+    /**
+     * @oddjob.property
+     * @oddjob.description The Remote Connection. This will be automatically
+     * injected if this is the child of an {@link SshSequenceJob}.
+     * @oddjob.required Yes.
+     */
     private volatile SshConnection connection;
 
+    /** Used to close the session during stop. */
     private volatile ClientSession clientSession;
 
     @Override
     public Integer call() {
 
         SshConnection sshConnection = Objects.requireNonNull(this.connection, "No Client Connection");
+
+        logger.info("Created connection to " + sshConnection);
 
         this.clientSession = sshConnection.getClientSession();
 

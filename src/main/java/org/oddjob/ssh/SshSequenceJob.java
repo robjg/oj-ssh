@@ -7,17 +7,22 @@ import org.oddjob.state.StateConditions;
 import org.oddjob.state.StateEvent;
 import org.oddjob.state.StateListener;
 
+import javax.inject.Inject;
 import java.util.Objects;
 import java.util.Optional;
 
 /**
- * @author Rob Gordon
- * @oddjob.description
+ * @oddjob.description Run a sequence of SSH Jobs using the same connection.
  */
 public class SshSequenceJob extends CascadeJob implements ServiceProvider {
 
     public static final String SSH_SESSION_SOURCE_SERVICE_NAME = "SshClientSessionSource";
 
+    /**
+     * @oddjob.property
+     * @oddjob.description The Remote Connection.
+     * @oddjob.required Yes.
+     */
     private volatile SshConnection connection;
 
     private final Services connectionServices = new Services() {
@@ -64,6 +69,7 @@ public class SshSequenceJob extends CascadeJob implements ServiceProvider {
                 .orElse(null);
     }
 
+    @Inject
     public void setConnection(SshConnection connection) {
         this.connection = connection;
     }

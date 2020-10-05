@@ -23,6 +23,10 @@ import java.util.EnumSet;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * @oddjob.description Runs a remote SSH Exec command.
+ *
+ */
 public class SshExecJob extends SshClientBase implements ConsoleOwner {
 
     private static final Logger logger = LoggerFactory.getLogger(SshExecJob.class);
@@ -40,9 +44,19 @@ public class SshExecJob extends SshClientBase implements ConsoleOwner {
 
     private transient LogArchiveImpl consoleArchive;
 
-    private boolean redirectStderr;
-
+    /**
+     * @oddjob.property
+     * @oddjob.description The command to run.
+     * @oddjob.required Yes.
+     */
     private String command;
+
+    /**
+     * @oddjob.property
+     * @oddjob.description Merge stderr into stdout.
+     * @oddjob.required No.
+     */
+    private boolean redirectStderr;
 
     /**
      * @oddjob.property

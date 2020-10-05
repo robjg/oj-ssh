@@ -13,13 +13,26 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.security.GeneralSecurityException;
 import java.security.KeyPair;
-import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * @oddjob.description Provide a Key Pair from a Putty format file.
+ *
+ */
 public class PuttyKeyPair implements ValueFactory<KeyIdentityProvider> {
 
+    /**
+     * @oddjob.property
+     * @oddjob.description The file.
+     * @oddjob.required Yes.
+     */
     private Path keyFile;
 
+    /**
+     * @oddjob.property
+     * @oddjob.description Provide the passphrase if the file is password protected.
+     * @oddjob.required Maybe.
+     */
     private FilePasswordProvider passphraseProvider;
 
     @Override

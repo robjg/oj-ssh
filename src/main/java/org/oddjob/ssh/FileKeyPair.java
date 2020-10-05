@@ -10,7 +10,7 @@ import java.nio.file.Path;
 import java.util.Optional;
 
 /**
- * Provide a Key Pair from Open SSH format files.
+ * @oddjob.description Provide a Key Pair from Open SSH format files.
  * <p/>
  * This is the file format created with the 'ssh-keytool'
  * and defaults to 'id_rsa'. I think this form is also known as PEM, it's of the form
@@ -25,8 +25,18 @@ import java.util.Optional;
  */
 public class FileKeyPair implements ValueFactory<KeyPairProvider> {
 
+    /**
+     * @oddjob.property
+     * @oddjob.description The files.
+     * @oddjob.required Yes, at least one..
+     */
     private Path[] keyFiles;
 
+    /**
+     * @oddjob.property
+     * @oddjob.description Provide the passphrase if the file is password protected.
+     * @oddjob.required Maybe.
+     */
     private FilePasswordProvider passphraseProvider;
 
     @Override

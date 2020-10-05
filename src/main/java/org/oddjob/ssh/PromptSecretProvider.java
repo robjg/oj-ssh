@@ -1,9 +1,5 @@
 package org.oddjob.ssh;
 
-import org.apache.sshd.common.NamedResource;
-import org.apache.sshd.common.SshException;
-import org.apache.sshd.common.config.keys.FilePasswordProvider;
-import org.apache.sshd.common.session.SessionContext;
 import org.oddjob.arooa.convert.ArooaConversionException;
 import org.oddjob.arooa.types.ValueFactory;
 import org.oddjob.input.InputHandler;
@@ -11,16 +7,29 @@ import org.oddjob.input.InputRequest;
 import org.oddjob.input.requests.InputPassword;
 
 import javax.inject.Inject;
-import java.io.IOException;
 import java.util.Optional;
 import java.util.Properties;
 
+/**
+ * @oddjob.description Provide a Password/Passphrase via a prompt.
+ */
 public class PromptSecretProvider implements ValueFactory<SecretProvider> {
 
     public static final String PASSWORD_PROPERTY = "top.secret";
 
+    /**
+     * @oddjob.property
+     * @oddjob.description Provides the prompt.
+     * @oddjob.required No, set automatically by Oddjob.
+     */
     private InputHandler inputHandler;
 
+    /**
+     * @oddjob.property
+     * @oddjob.description Possibly allow this many retries if whatever requires
+     * the password supports this..
+     * @oddjob.required No.
+     */
     private int retries;
 
     @Override
