@@ -81,7 +81,7 @@ public class SshExecJob extends SshClientBase implements ConsoleOwner {
     }
 
     @Override
-    void withSession(ClientSession session) {
+    Integer withSession(ClientSession session) {
 
         try {
             OutputStream stdout = this.stdout;
@@ -124,11 +124,16 @@ public class SshExecJob extends SshClientBase implements ConsoleOwner {
                 Collection<ClientChannelEvent> events =
                         channel.waitFor(EnumSet.of(ClientChannelEvent.CLOSED), 0L);
 
+                // not sure if this can be null be just to be safe.
+                Integer exitStatus = channel.getExitStatus();
+
                 if (logger.isDebugEnabled()) {
-                    logger.debug("Channel closed with events {}", events);
+                    logger.debug("Channel closed with events {}, exit state", events, exitStatus);
                 }
 
                 channel.close(false);
+
+                return exitStatus;
             }
         } catch (IOException e) {
             throw new OddjobWrapperException(e);

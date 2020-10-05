@@ -73,7 +73,7 @@ public class ScpClientWithServerTest {
         scpJob.setRemote(serverWork.resolve("OurRemoteFile.txt").toString());
         scpJob.setTo(clientWork.resolve("TheMonthsCopy.txt"));
 
-        scpJob.run();
+        assertThat(scpJob.call(), is(0));
 
         String[] originalLines = new BufferedReader(
                 new InputStreamReader(getClass().getResourceAsStream("TheMonths.txt"),

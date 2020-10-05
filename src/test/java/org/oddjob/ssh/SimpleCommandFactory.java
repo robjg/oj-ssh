@@ -67,6 +67,9 @@ class SimpleCommand implements Command {
     @Override
     public void start(ChannelSession channelSession, Environment environment) throws IOException {
 
+        // Todo: Do we need all the flushes?
+
+
         this.t = new Thread(() -> {
 
             try {
@@ -91,6 +94,13 @@ class SimpleCommand implements Command {
                     err.flush();
 
                     callback.onExit(0, "Goodbye");
+                } else if (command.equals("hang")) {
+                    try {
+                        Thread.sleep(Long.MAX_VALUE);
+                    } catch (InterruptedException e) {
+                        logger.info("Hang interrupted.");
+                    }
+                    // don't exit.
                 } else {
                     err.write(new String("No command: " + command).getBytes());
                     callback.onExit(-1, "Fail");
@@ -100,8 +110,6 @@ class SimpleCommand implements Command {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
         });
 
         t.start();

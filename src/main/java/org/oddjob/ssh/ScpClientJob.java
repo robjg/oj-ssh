@@ -73,7 +73,7 @@ public class ScpClientJob extends SshClientBase {
 
 
     @Override
-    void withSession(ClientSession session) {
+    Integer withSession(ClientSession session) {
 
         String remote = Objects.requireNonNull(this.remote, "No remote file");
 
@@ -102,6 +102,7 @@ public class ScpClientJob extends SshClientBase {
             }
         }
 
+        return 0;
     }
 
     public String getRemote() {

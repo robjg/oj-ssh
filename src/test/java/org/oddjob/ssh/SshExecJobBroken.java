@@ -92,7 +92,7 @@ public class SshExecJobBroken extends SshClientBase implements ConsoleOwner {
     }
 
     @Override
-    void withSession(ClientSession session) {
+    Integer withSession(ClientSession session) {
 
         try {
             OutputStream stdout = this.stdout;
@@ -114,7 +114,7 @@ public class SshExecJobBroken extends SshClientBase implements ConsoleOwner {
                             LogLevel.ERROR, consoleArchive);
 
                     InputStream inStream = Optional.ofNullable(this.stdin)
-                            .orElseGet(() -> new ByteArrayInputStream(new byte[0]));
+                            .orElseGet(() -> new ByteArrayInputStream(new byte[0]))
             ) {
 
                 try {
@@ -162,6 +162,8 @@ public class SshExecJobBroken extends SshClientBase implements ConsoleOwner {
         } catch (IOException e) {
             throw new OddjobWrapperException(e);
         }
+
+        return 0;
     }
 
     static class Pump implements Runnable {

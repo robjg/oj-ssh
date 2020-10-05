@@ -14,7 +14,10 @@ import org.oddjob.arooa.convert.ArooaConversionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.security.PublicKey;
@@ -22,12 +25,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class SshExecWithServerTest {
@@ -93,7 +96,7 @@ public class SshExecWithServerTest {
         client.setStdin(in);
         client.setStdout(result);
 
-        client.run();
+        assertThat(client.call(), is(0));
 
         assertThat(userRef.get(), is("foo"));
         assertThat(passwordRef.get(), is("bar"));
@@ -135,7 +138,7 @@ public class SshExecWithServerTest {
         client.setStdin(in);
         client.setStdout(result);
 
-        client.run();
+        assertThat(client.call(), is(0));
 
         assertThat(new String(result.toByteArray()), is("Hello\nGoodbye\n"));
     }
@@ -176,7 +179,7 @@ public class SshExecWithServerTest {
         client.setStdin(in);
         client.setStdout(result);
 
-        client.run();
+        assertThat(client.call(), is(0));
 
         assertThat(new String(result.toByteArray()), is("Hello\nGoodbye\n"));
     }
@@ -219,7 +222,7 @@ public class SshExecWithServerTest {
         client.setStdin(in);
         client.setStdout(result);
 
-        client.run();
+        assertThat(client.call(), is(0));
 
         assertThat(new String(result.toByteArray()), is("Hello\nGoodbye\n"));
     }
@@ -263,7 +266,7 @@ public class SshExecWithServerTest {
         client.setStdin(in);
         client.setStdout(result);
 
-        client.run();
+        assertThat(client.call(), is(0));
 
         assertThat(new String(result.toByteArray()), is("Hello\nGoodbye\n"));
     }
@@ -317,7 +320,7 @@ public class SshExecWithServerTest {
         ByteArrayOutputStream result = new ByteArrayOutputStream();
 
         client.setStdout(result);
-        client.run();
+        assertThat(client.call(), is(0));
 
         assertThat(new String(result.toByteArray()), is("Hello\n"));
     }
@@ -345,9 +348,80 @@ public class SshExecWithServerTest {
 
         client.setStdin(in);
         client.setStdout(out);
-        client.run();
+        assertThat(client.call(), is(0));
 
         assertThat(out.getLast(), is(1_000_000));
+    }
+
+    @Test
+    void testBadCommand() throws IOException, ArooaConversionException {
+
+        server.setDisableAuthentication(true);
+
+        server.start();
+
+        SshConnectionValue connection = new SshConnectionValue();
+        connection.setHost("localhost");
+        connection.setPort(server.getPort());
+        connection.setUser("foo");
+        connection.setTimeout(1000L);
+
+        SshExecJob client = new SshExecJob();
+        client.setConnection(connection.toValue());
+        client.setCommand("doh");
+
+        ByteArrayOutputStream result = new ByteArrayOutputStream();
+
+        client.setStdout(result);
+        assertThat(client.call(), is(-1));
+
+        // TODO: Any way to get the error message?
+        assertThat(new String(result.toByteArray()), is(""));
+    }
+
+    @Test
+    void testHangAndStop() throws IOException, ArooaConversionException, InterruptedException {
+
+        server.setDisableAuthentication(true);
+
+        server.start();
+
+        SshConnectionValue connection = new SshConnectionValue();
+        connection.setHost("localhost");
+        connection.setPort(server.getPort());
+        connection.setUser("foo");
+        connection.setTimeout(1000L);
+
+        SshExecJob client = new SshExecJob();
+        client.setConnection(connection.toValue());
+        client.setCommand("hang");
+
+        ByteArrayOutputStream result = new ByteArrayOutputStream();
+
+        client.setStdout(result);
+
+        AtomicInteger res = new AtomicInteger();
+        AtomicReference<Exception> er = new AtomicReference<>();
+
+        Thread t = new Thread(() -> {
+            try {
+                res.set(client.call());
+            }
+            catch (Exception e ) {
+                er.set(e);
+            }
+        });
+
+        t.start();
+
+        Thread.sleep(2000L);
+
+        client.stop();
+
+        // Todo: Is this the what we'd expect?
+        assertThat(er.get(), nullValue());
+        assertThat(res.get(), is(0));
+
     }
 }
 
