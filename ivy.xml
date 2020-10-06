@@ -1,0 +1,38 @@
+<ivy-module version="2.0">
+  <info organisation="uk.co.rgordon" module="oj-ssh"/>
+
+	<configurations>
+        <conf name="default" visibility="public"></conf>
+        <conf name="provided" visibility="public"></conf>
+        <conf name="test" extends="default,provided" visibility="public"></conf>
+	</configurations>  
+        
+	<dependencies>
+	
+		<dependency org="org.apache.sshd" name="sshd-core" rev="${apache-sshd.version}"
+			conf="default->default"/>
+
+		<dependency org="org.apache.sshd" name="sshd-scp" rev="${apache-sshd.version}"
+					conf="default->default"/>
+
+		<dependency org="org.apache.sshd" name="sshd-putty" rev="${apache-sshd.version}"
+					conf="default->default"/>
+
+		<dependency org="uk.co.rgordon" name="oddjob" rev="${project.version}"
+	    	conf="provided->default" />
+	    	
+		<dependency org="org.slf4j" name="slf4j-log4j12" rev="${slf4j.version}"
+			conf="test->default"/>
+
+	    <dependency org="uk.co.rgordon" name="arooa" rev="${project.version}"
+	    	conf="test->test" />
+
+		<dependency org="org.junit.jupiter" name="junit-jupiter" rev="${junit5.version}"
+					conf="test->default"/>
+
+		<dependency org="org.junit.vintage" name="junit-vintage-engine" rev="${junit5.version}"
+					conf="test->default"/>
+
+	</dependencies>
+  
+</ivy-module>
