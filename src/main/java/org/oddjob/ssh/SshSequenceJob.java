@@ -43,6 +43,10 @@ public class SshSequenceJob extends CascadeJob implements ServiceProvider {
         }
     };
 
+    /**
+     * @oddjob.property services
+     * @oddjob.description Internal property to provide the connection to children.
+     */
     @Override
     public Services getServices() {
         return connectionServices;

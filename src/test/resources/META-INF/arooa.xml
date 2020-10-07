@@ -1,7 +1,0 @@
-<arooa:descriptor  xmlns:arooa="http://rgordon.co.uk/oddjob/arooa"
-    prefix="ssh" namespace="oddjob:ssh">
-	<components>
-		<arooa:bean-def element='server'
-						className='org.oddjob.ssh.SshServerService'/>
-	</components>
-</arooa:descriptor>

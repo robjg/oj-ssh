@@ -19,7 +19,7 @@ abstract  public class SshClientBase implements Callable<Integer> {
 
     /**
      * @oddjob.property
-     * @oddjob.description Name of the job.
+     * @oddjob.description The name of the job. Can be any text.
      * @oddjob.required No.
      */
     private volatile String name;
