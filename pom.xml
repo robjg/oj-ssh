@@ -5,14 +5,36 @@
     <parent>
         <artifactId>oj-parent</artifactId>
         <groupId>uk.co.rgordon</groupId>
-        <version>1.6-SNAPSHOT</version>
-        <relativePath>../oj-parent/pom.xml</relativePath>
+        <version>1.6.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>oj-ssh</artifactId>
-    <name>Oddjob SSH Oddball</name>
+
+    <name>Oddjob SSH</name>
+    <description>Oddjob SSH Oddball</description>
     <url>http://rgordon.co.uk/oddjob</url>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>rob</id>
+            <name>Rob</name>
+            <email>contact@rgordon.co.uk</email>
+        </developer>
+    </developers>
+
+    <scm>
+        <url>https://github.com/robjg/oj-ssh</url>
+        <connection>scm:git:git://github.com/robjg/oj-ssh.git</connection>
+    </scm>
 
     <profiles>
         <profile>
