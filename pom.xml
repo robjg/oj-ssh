@@ -5,7 +5,7 @@
     <parent>
         <artifactId>oj-parent</artifactId>
         <groupId>uk.co.rgordon</groupId>
-        <version>1.6.0</version>
+        <version>1.7.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -159,7 +159,7 @@
 
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.2.0</version>
+                <groupId>org.apache.maven.plugins</groupId>
                 <configuration>
                     <descriptors>
                         <descriptor>src/assembly/oddball.xml</descriptor>

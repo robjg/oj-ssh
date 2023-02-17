@@ -19,7 +19,7 @@ class CountOutputStream extends OutputStream {
     public void write(int b) throws IOException {
         if (b == '\n') {
             String s = new String(bytes.array(), 0, bytes.position());
-            int next = new Integer(s);
+            int next = Integer.parseInt(s);
             if (next != last + 1) {
                 throw new IOException("Unexpected value " + next);
             }
