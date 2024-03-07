@@ -22,3 +22,5 @@ Authentication Not yet supported:
 Oh, and the Client accepts all host keys, so this really isn't production
 ready yet...
 
+For information on configuration please see the
+[Reference](docs/reference/README.md)
