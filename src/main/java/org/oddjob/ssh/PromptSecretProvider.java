@@ -50,9 +50,10 @@ public class PromptSecretProvider implements ValueFactory<SecretProvider> {
                     inputPassword.setPrompt("Password for " + about);
                     inputPassword.setProperty(PASSWORD_PROPERTY);
 
-                    Properties properties = inputHandler.handleInput(new InputRequest[] {  inputPassword });
-
-                    return properties.getProperty(PASSWORD_PROPERTY);
+                    try (InputHandler.Session session = inputHandler.start()) {
+                        Properties properties = session.handleInput(new InputRequest[] {  inputPassword });
+                        return properties.getProperty(PASSWORD_PROPERTY);
+                    }
                 }
             }
 
