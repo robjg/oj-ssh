@@ -38,18 +38,16 @@ abstract  public class SshClientBase implements Callable<Integer> {
     @Override
     public Integer call() {
 
-        SshConnection sshConnection = Objects.requireNonNull(this.connection, "No Client Connection");
+        try (SshConnection sshConnection = Objects.requireNonNull(this.connection, "No Client Connection")) {
 
-        logger.info("Created connection to " + sshConnection);
+            logger.info("Created connection to {}", sshConnection);
 
-        this.clientSession = sshConnection.getClientSession();
+            this.clientSession = sshConnection.getClientSession();
 
-        try {
             return withSession(clientSession);
         }
         finally {
             this.clientSession = null;
-            sshConnection.close();
         }
     }
 

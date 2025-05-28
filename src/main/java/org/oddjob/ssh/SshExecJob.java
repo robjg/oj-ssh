@@ -122,7 +122,7 @@ public class SshExecJob extends SshClientBase implements ConsoleOwner {
                 channel.setErr(errStream);
 
                 try {
-                    logger.info("Opening channel with command " + command);
+                    logger.info("Opening channel with command {}", command);
                     channel.open().verify(OPEN_TIMEOUT);
                 } catch (IOException e) {
                     throw new OddjobWrapperException("Failed opening channel", e);
@@ -142,7 +142,7 @@ public class SshExecJob extends SshClientBase implements ConsoleOwner {
                 Integer exitStatus = channel.getExitStatus();
 
                 if (logger.isDebugEnabled()) {
-                    logger.debug("Channel closed with events {}, exit state", events, exitStatus);
+                    logger.debug("Channel closed with events {}, exit state {}", events, exitStatus);
                 }
 
                 channel.close(false);

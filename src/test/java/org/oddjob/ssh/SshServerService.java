@@ -11,8 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.nio.file.Path;
-import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -49,7 +48,7 @@ public class SshServerService {
         if (disableAuthentication) {
             logger.warn("** Authentication Disabled!!! ***");
 
-            sshServer.setUserAuthFactories(Arrays.asList(new UserAuthNoneFactory()));
+            sshServer.setUserAuthFactories(List.of(new UserAuthNoneFactory()));
         }
 
         Optional.ofNullable(this.passwordAuthenticator)
@@ -135,6 +134,7 @@ public class SshServerService {
 
     @Override
     public String toString() {
-        return Optional.ofNullable(this.name).orElse(getClass().getSimpleName());
+        return Optional.ofNullable(this.name)
+                .orElse(getClass().getSimpleName());
     }
 }

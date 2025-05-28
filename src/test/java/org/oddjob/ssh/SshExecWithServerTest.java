@@ -33,7 +33,7 @@ import java.util.stream.Stream;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class SshExecWithServerTest {
+class SshExecWithServerTest {
 
     private static final Logger logger = LoggerFactory.getLogger(SshExecWithServerTest.class);
 
@@ -42,7 +42,7 @@ public class SshExecWithServerTest {
     @BeforeEach
     public void setUp(TestInfo testInfo) throws URISyntaxException, ArooaConversionException {
 
-        logger.info("---- starting " + testInfo.getDisplayName() + " -----");
+        logger.info("---- starting {} -----", testInfo.getDisplayName());
 
         FileKeyPair fileKeyPair = new FileKeyPair();
         fileKeyPair.setKeyFiles(
@@ -101,7 +101,7 @@ public class SshExecWithServerTest {
         assertThat(userRef.get(), is("foo"));
         assertThat(passwordRef.get(), is("bar"));
 
-        assertThat(new String(result.toByteArray()), is("Hello\nGoodbye\n"));
+        assertThat(result.toString(), is("Hello\nGoodbye\n"));
     }
 
     @Test
@@ -140,7 +140,7 @@ public class SshExecWithServerTest {
 
         assertThat(client.call(), is(0));
 
-        assertThat(new String(result.toByteArray()), is("Hello\nGoodbye\n"));
+        assertThat(result.toString(), is("Hello\nGoodbye\n"));
     }
 
     @Test
@@ -181,7 +181,7 @@ public class SshExecWithServerTest {
 
         assertThat(client.call(), is(0));
 
-        assertThat(new String(result.toByteArray()), is("Hello\nGoodbye\n"));
+        assertThat(result.toString(), is("Hello\nGoodbye\n"));
     }
 
     @Test
@@ -224,7 +224,7 @@ public class SshExecWithServerTest {
 
         assertThat(client.call(), is(0));
 
-        assertThat(new String(result.toByteArray()), is("Hello\nGoodbye\n"));
+        assertThat(result.toString(), is("Hello\nGoodbye\n"));
     }
 
     @Test
@@ -268,7 +268,7 @@ public class SshExecWithServerTest {
 
         assertThat(client.call(), is(0));
 
-        assertThat(new String(result.toByteArray()), is("Hello\nGoodbye\n"));
+        assertThat(result.toString(), is("Hello\nGoodbye\n"));
     }
 
     static PublicKey decodeOpenSshPublicKey(String resourceName)throws Exception {
@@ -322,10 +322,9 @@ public class SshExecWithServerTest {
         client.setStdout(result);
         assertThat(client.call(), is(0));
 
-        assertThat(new String(result.toByteArray()), is("Hello\n"));
+        assertThat(result.toString(), is("Hello\n"));
     }
 
-    // TODO: Work out why this test can't cope with a million.
     @Test
     void testHugeIo() throws IOException, ArooaConversionException {
 
@@ -343,11 +342,12 @@ public class SshExecWithServerTest {
         client.setConnection(connection.toValue());
         client.setCommand("cat");
 
-        CountInputStream in = new CountInputStream(10_000);
+        CountInputStream in = new CountInputStream(1_000_000);
         CountOutputStream out = new CountOutputStream();
 
         client.setStdin(in);
         client.setStdout(out);
+
         assertThat(client.call(), is(0));
 
         assertThat(out.getLast(), is(1_000_000));
@@ -376,7 +376,7 @@ public class SshExecWithServerTest {
         assertThat(client.call(), is(-1));
 
         // TODO: Any way to get the error message?
-        assertThat(new String(result.toByteArray()), is(""));
+        assertThat(result.toString(), is(""));
     }
 
     @Test

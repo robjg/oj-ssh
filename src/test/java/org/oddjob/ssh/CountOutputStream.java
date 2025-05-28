@@ -25,7 +25,7 @@ class CountOutputStream extends OutputStream {
             }
             last = next;
             if (last % 1000 == 0) {
-                logger.info("Count: " + last);
+                logger.info("Count: {}", last);
             }
             bytes = ByteBuffer.allocate(10);
         } else {

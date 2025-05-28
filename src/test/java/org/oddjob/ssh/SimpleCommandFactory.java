@@ -33,12 +33,12 @@ class SimpleCommand implements Command {
 
     private final String command;
 
-    private InputStream in;
-    private OutputStream out;
-    private OutputStream err;
-    private ExitCallback callback;
+    private volatile InputStream in;
+    private volatile OutputStream out;
+    private volatile OutputStream err;
+    private volatile ExitCallback callback;
 
-    private Thread t;
+    private volatile Thread t;
 
     SimpleCommand(String command) {
         this.command = command;
@@ -65,7 +65,7 @@ class SimpleCommand implements Command {
     }
 
     @Override
-    public void start(ChannelSession channelSession, Environment environment) throws IOException {
+    public void start(ChannelSession channelSession, Environment environment) {
 
         // Todo: Do we need all the flushes?
 
@@ -86,7 +86,9 @@ class SimpleCommand implements Command {
                     callback.onExit(0, "Goodbye");
 
                 } else if (command.startsWith("echo")) {
-                    while (in.read() != -1) {}
+                    while (in.read() != -1) {
+                        // why
+                    }
 
                     out.write(command.substring(5).getBytes());
                     out.write('\n');
@@ -108,7 +110,8 @@ class SimpleCommand implements Command {
 
                 logger.info("Command complete.");
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error("Exception from command {}", command, e);
+                callback.onExit(-1, e.getMessage());
             }
         });
 
