@@ -59,7 +59,7 @@
     <properties>
         <integration.test.tag>IntegrationTest</integration.test.tag>
 
-        <apache-sshd.version>2.5.1</apache-sshd.version>
+        <apache-sshd.version>2.15.0</apache-sshd.version>
     </properties>
 
     <dependencyManagement>
@@ -70,6 +70,16 @@
                 <version>${apache-sshd.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>ch.qos.logback</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -87,12 +97,6 @@
             <groupId>org.apache.sshd</groupId>
             <artifactId>sshd-core</artifactId>
             <version>${apache-sshd.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
@@ -147,14 +151,23 @@
 
         <dependency>
             <groupId>org.bouncycastle</groupId>
-            <artifactId>bcpg-jdk15on</artifactId>
+            <artifactId>bcpg-jdk18on</artifactId>
             <scope>test</scope>
         </dependency>
 
+        <!-- These are being pulled in by the sshd libs. We need to force our own version -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <scope>test</scope>
+            <version>${logback.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <scope>test</scope>
+            <version>${logback.version}</version>
         </dependency>
 
     </dependencies>
