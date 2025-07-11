@@ -1,6 +1,6 @@
 package org.oddjob.ssh;
 
-import org.apache.sshd.server.scp.ScpCommandFactory;
+import org.apache.sshd.scp.server.ScpCommandFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

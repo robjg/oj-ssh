@@ -1,10 +1,10 @@
 package org.oddjob.ssh;
 
-import org.apache.sshd.client.scp.ScpClient;
-import org.apache.sshd.client.scp.ScpClientCreator;
 import org.apache.sshd.client.session.ClientSession;
-import org.apache.sshd.common.scp.ScpTransferEventListener;
 import org.apache.sshd.common.session.Session;
+import org.apache.sshd.scp.client.ScpClient;
+import org.apache.sshd.scp.client.ScpClientCreator;
+import org.apache.sshd.scp.common.ScpTransferEventListener;
 import org.oddjob.util.OddjobWrapperException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
